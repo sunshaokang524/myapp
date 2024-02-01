@@ -13,7 +13,8 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/about", name: "about", component: About },
   { path: "/info", name: "info", component: Info },
   { path: "/my", name: "my", component: My },
-  { path: "/login", name: "login", component: Login },]},
+  ]},
+  { path: "/login", name: "login", component: Login },
   
 ];
 const router = createRouter({
