@@ -1,30 +1,54 @@
 <template>
   <div class="login">
     <div ref="vantaRef" style="width: 100%; height: 100vh;" class="bgColor">
-      <div class="glass-container" id="glass">
-         <var-input blur-color="#fff" focus-color="#fff" text-color="#fff"  placeholder="用户名" v-model="userName" />
-        <var-input  blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="密码" v-model="passWord" />
-        <div  class="btn">登录</div>
-       </div>
+      <div class="glass-container" id="glass" v-show="signFlag">
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="手机号" v-model="userPhone" />
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="密码" v-model="passWord" />
+        <div class="btn">登录</div>
+        <span class="sign_text" @click="signFlag=false">注册账号</span>
+      </div>
+      <div v-show="!signFlag" class="glass-container-sign" id="glass">
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="手机号" v-model="signPhone" />
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="密码" v-model="signPassWord" />
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="确认密码" v-model="signPassWord2" />
+        <div class="btn" @click="goSign">注册</div>
+      </div>
     </div>
-   
+
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import * as THREE from 'three'//导入样式
-import HALO from 'vanta/src/vanta.halo'//导入动态样式逻辑
-const vantaRef = ref(null);
-const userName = ref()
-const passWord = ref()
+import CLOUDS from 'vanta/src/vanta.clouds'//导入动态样式逻辑
+import {post} from '../../api/api'
+// 背景
+const vantaRef:any = ref(null);
+// 登录
+const userPhone = ref<string>()
+const passWord = ref<string>()
+// 注册
+const signFlag = ref<boolean>(true)
+
+const signPhone = ref<string>()
+const signPassWord = ref<string>()
+const signPassWord2 = ref<string>()
+  const goSign = ():void=>{ 
+let params= {userPhone:signPhone.value,passWord:signPassWord.value}
+console.log(params)
+  post('/signIn',params).then(res=>{
+    console.log(res)
+  })
+  signFlag.value=false
+}
 onMounted(() => {
   console.log('获取dom元素', vantaRef)
-  const vantaEffect = HALO({
+  const vantaEffect = CLOUDS({
     el: vantaRef.value,
     THREE: THREE
   })
-  VANTA.HALO({
+  VANTA.CLOUDS({
     el: vantaRef.value,
     mouseControls: true,
     touchControls: true,
@@ -34,6 +58,9 @@ onMounted(() => {
     scale: 1.0,
     color1: 1000000,
     color2: 16443110,
+    backgroundColor: 0xdc2727,
+    skyColor: 0x144da0,
+    cloudShadowColor: 0x83157,
   });
 })
 
@@ -42,74 +69,111 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.login{
+.login {
 
-.glass-container{
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  height: 230px;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  border-radius: 10px;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0,191,255, 0.075);
-  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+  .glass-container {
+    padding-bottom: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 230px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 191, 255, 0.075);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
 
-}
-.bgColor{
-display: flex;
-justify-content: center;
-align-items: center;
-}
-.btn {
-
-  /* 居中 */
-  transform: translate(0, 0);
-  font-size: 14px;
-  background: linear-gradient(90deg, #03a9f4, #f441a5, #09ec7b, #03a9f4);
-  background-size: 400%;
-  width: 200px;
-  height: 40px;
-  color: #fff;
-  line-height: 40px;
-  text-align: center;
-  text-transform: uppercase;
-  border-radius: 20px;
-  z-index: 1;
-}
-
-.btn::before {
-  content: "";
-  position: absolute;
-  left: -5px;
-  right: -5px;
-  top: -5px;
-  bottom: -5px;
-  background: linear-gradient(90deg, #03a9f4, #f441a5, #3bff93, #03a9f4);
-  background-size: 400%;
-  border-radius: 50px;
-  filter: blur(20px);
-  z-index: -1;
-}
-
-.btn:hover::before {
-  animation: sun 8s infinite;
-}
-
-.btn:hover {
-  animation: sun 8s infinite;
-}
-
-@keyframes sun {
-  100% {
-    background-position: -400% 0;
   }
-}
+  .glass-container-sign {
+    padding-bottom: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  //  height: 230px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 191, 255, 0.075);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+    z-index: 1;
+  }
+
+  .bgColor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+
+    /* 居中 */
+    transform: translate(0, 0);
+    font-size: 14px;
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #09ec7b, #03a9f4);
+    background-size: 400%;
+    width: 200px;
+    height: 40px;
+    color: #fff;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 20px;
+    z-index: 1;
+  }
+
+  .btn::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    top: -5px;
+    bottom: -5px;
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #3bff93, #03a9f4);
+    background-size: 400%;
+    border-radius: 50px;
+    filter: blur(20px);
+    z-index: -1;
+  }
+
+  .btn:hover::before {
+    animation: sun 8s infinite;
+  }
+
+  .btn:hover {
+    animation: sun 8s infinite;
+  }
+
+  @keyframes sun {
+    100% {
+      background-position: -400% 0;
+    }
+  }
+
+   .sign_text {
+    font-size: 16px;
+    letter-spacing: -30px;
+    color: #0000009d;
+    animation: showup 3s linear forwards;
+  }
+  @keyframes showup {
+    0% {
+      filter: blur(2px);
+    }
+    100% {
+      letter-spacing: 10px;
+      filter: blur(-12px);
+    }
+  }
 
 }
 </style>
