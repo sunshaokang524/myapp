@@ -7,4 +7,6 @@ import 'amfe-flexible/index'
 import router from './router/index'
 import '../config/rem.ts'
 import titleBar from  './components/title-bar.vue'
-createApp(App).component('titleBar',titleBar).use(Varlet).use(router).mount('#app')
+import Toast from './components/my-toast/index'
+
+createApp(App).component('titleBar',titleBar).use(Varlet).use(router).use(Toast).mount('#app')

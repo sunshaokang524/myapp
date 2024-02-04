@@ -2,15 +2,33 @@
   <div class="login">
     <div ref="vantaRef" style="width: 100%; height: 100vh;" class="bgColor">
       <div class="glass-container" id="glass" v-show="signFlag">
-        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="手机号" v-model="userPhone" />
-        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="密码" v-model="passWord" />
-        <div class="btn">登录</div>
-        <span class="sign_text" @click="signFlag=false">注册账号</span>
+        <var-input style="width:215px" blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="手机号"
+          v-model="userPhone" />
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="密码" v-model="passWord"
+          :type="pwFlag ? 'password' : 'text'"> <template #append-icon>
+            <var-icon class="append-icon" name="minus-box-outline" @click="pwFlag = false" v-if="pwFlag" />
+            <var-icon class="append-icon" name="minus-box" @click="pwFlag = true" v-else />
+          </template>
+        </var-input>
+        <div class="btn" @click="login">登录</div>
+        <span class="sign_text" @click="signFlag = false">注册账号</span>
       </div>
       <div v-show="!signFlag" class="glass-container-sign" id="glass">
-        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="手机号" v-model="signPhone" />
-        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="密码" v-model="signPassWord" />
-        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="确认密码" v-model="signPassWord2" />
+        <var-input style="width:215px" blur-color="#fff" focus-color="#fff" text-color="#fff" placeholder="手机号"
+          v-model="signPhone" />
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" :type="pwFlag1 ? 'password' : 'text'"
+          show-password placeholder="密码" v-model="signPassWord">
+          <template #append-icon>
+            <var-icon class="append-icon" name="minus-box-outline" @click="pwFlag1 = false" v-if="pwFlag1" />
+            <var-icon class="append-icon" name="minus-box" @click="pwFlag1 = true" v-else />
+          </template>
+        </var-input>
+        <var-input blur-color="#fff" focus-color="#fff" text-color="#fff" :type="pwFlag2 ? 'password' : 'text'"
+          show-password placeholder="确认密码" v-model="signPassWord2"> <template #append-icon>
+            <var-icon class="append-icon" name="minus-box-outline" @click="pwFlag2 = false" v-if="pwFlag2" />
+            <var-icon class="append-icon" name="minus-box" @click="pwFlag2 = true" v-else />
+          </template>
+        </var-input>
         <div class="btn" @click="goSign">注册</div>
       </div>
     </div>
@@ -22,28 +40,42 @@
 import { ref, onMounted } from 'vue'
 import * as THREE from 'three'//导入样式
 import CLOUDS from 'vanta/src/vanta.clouds'//导入动态样式逻辑
-import {post} from '../../api/api'
+import { post } from '../../api/api'
+import { getCurrentInstance } from 'vue';
+const { proxy }: any = getCurrentInstance();
 // 背景
-const vantaRef:any = ref(null);
+const vantaRef: any = ref(null);
 // 登录
 const userPhone = ref<string>()
 const passWord = ref<string>()
+const login = (): void => {
+  console.log(proxy.$Toast)
+
+}
 // 注册
 const signFlag = ref<boolean>(true)
 
 const signPhone = ref<string>()
 const signPassWord = ref<string>()
 const signPassWord2 = ref<string>()
-  const goSign = ():void=>{ 
-let params= {userPhone:signPhone.value,passWord:signPassWord.value}
-console.log(params)
-  post('/signIn',params).then(res=>{
-    console.log(res)
+const pwFlag = ref<boolean>(true)
+const pwFlag1 = ref<boolean>(true)
+const pwFlag2 = ref<boolean>(true)
+
+const goSign = (): void => {
+  let params = { userPhone: signPhone.value, passWord: signPassWord.value }
+  post('/signIn', params).then(res => {
+    if (res?.code == 200) {
+      proxy.$Toast({
+        content: '登录成功！', time: 3000, hide: () => {
+          signFlag.value = true
+          console.log('dddasd',signFlag.value)
+        }
+      })
+    }
   })
-  signFlag.value=false
 }
 onMounted(() => {
-  console.log('获取dom元素', vantaRef)
   const vantaEffect = CLOUDS({
     el: vantaRef.value,
     THREE: THREE
@@ -72,7 +104,7 @@ onMounted(() => {
 .login {
 
   .glass-container {
-    padding-bottom: 20px;
+    padding: 20px 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -89,13 +121,14 @@ onMounted(() => {
     box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
 
   }
+
   .glass-container-sign {
-    padding-bottom: 20px;
+    padding: 20px 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     width: 300px;
-  //  height: 230px;
+    //  height: 230px;
     color: white;
     display: flex;
     justify-content: center;
@@ -159,16 +192,18 @@ onMounted(() => {
     }
   }
 
-   .sign_text {
+  .sign_text {
     font-size: 16px;
     letter-spacing: -30px;
     color: #0000009d;
     animation: showup 3s linear forwards;
   }
+
   @keyframes showup {
     0% {
       filter: blur(2px);
     }
+
     100% {
       letter-spacing: 10px;
       filter: blur(-12px);
