@@ -1,9 +1,10 @@
 import request from "./request";
-export interface ApiResult<T> {
+export interface ApiResult<T=any> {
   code: number;
   message: string;
-  data: T;
+  data:T;
 }
+
 export async function get<T>(url: string, params?: any): Promise<ApiResult<T>> {
   const response = await request.get<ApiResult<T>>(url, { params });
   return response.data;

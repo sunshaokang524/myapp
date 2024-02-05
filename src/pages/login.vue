@@ -30,6 +30,7 @@
           </template>
         </var-input>
         <div class="btn" @click="goSign">注册</div>
+        <span class="sign_text" @click="signFlag = true">去登录</span>
       </div>
     </div>
 
@@ -42,6 +43,8 @@ import * as THREE from 'three'//导入样式
 import CLOUDS from 'vanta/src/vanta.clouds'//导入动态样式逻辑
 import { post } from '../../api/api'
 import { getCurrentInstance } from 'vue';
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const { proxy }: any = getCurrentInstance();
 // 背景
 const vantaRef: any = ref(null);
@@ -49,7 +52,16 @@ const vantaRef: any = ref(null);
 const userPhone = ref<string>()
 const passWord = ref<string>()
 const login = (): void => {
-  console.log(proxy.$Toast)
+  post('/login',{phone:userPhone.value,passWord:passWord.value}).then((res:any)=>{
+    if(res?.code==200){
+      proxy.$Toast({
+        content:res.message,hide:()=>{
+          localStorage.setItem('Token',res.data.token)
+          router.replace('/home')
+        }
+      })
+    }
+  })
 
 }
 // 注册
@@ -67,10 +79,16 @@ const goSign = (): void => {
   post('/signIn', params).then(res => {
     if (res?.code == 200) {
       proxy.$Toast({
-        content: '登录成功！', time: 3000, hide: () => {
+        content: res.message, time: 3000, hide: () => {
           signFlag.value = true
-          console.log('dddasd',signFlag.value)
+          signPhone.value = ''
+          signPassWord.value = ''
+          signPassWord2.value = ''
         }
+      })
+    }else if (res?.code==406){
+      proxy.$Toast({
+        content: res.message, time: 3000,
       })
     }
   })

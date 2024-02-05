@@ -1,12 +1,16 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 const request: AxiosInstance = axios.create({
   baseURL: "http://192.168.0.2:3000",
   timeout: 5000,
 });
 // 添加请求拦截器
 request.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    // 在发送请求之前做些什么
+  (config: any) => {
+    let token = localStorage.getItem("Token");
+    if (token) {
+      config.headers["Authorization"] = "Bearer " + token;
+    }
+
     return config;
   },
   (error: any) => {
