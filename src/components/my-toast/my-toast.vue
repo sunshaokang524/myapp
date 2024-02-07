@@ -84,7 +84,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 99;
-      background: #33333377;
+      background: #333333ad;
       border-radius: 10px;
       text-align: center;
       .cancel {
@@ -106,9 +106,10 @@
 
       .content {
         font-size: 16px;
-        color: #fffffe;
+        color: #ffffff;
         line-height: 30px;
         text-align: initial;
+        padding: 10px;
       }
     }
   </style>

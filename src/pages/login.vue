@@ -60,6 +60,10 @@ const login = (): void => {
           router.replace('/home')
         }
       })
+    }else if (res?.code==406){
+      proxy.$Toast({
+        content: res.message, time: 3000,
+      })
     }
   })
 
