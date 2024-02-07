@@ -1,19 +1,49 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import {ref,onMounted} from 'vue'
 import {useRouter} from 'vue-router'
+import HALO from 'vanta/src/vanta.halo'//导入动态样式逻辑
+import * as THREE from 'three'//导入样式
 const router= useRouter()
 const active =ref('home')
+
 const changeFn =(path:any):void=>{
   router.push({
     name:path
   })
-
+// 背景
 }
+changeFn('home')
+const vantaRef: any = ref(null);
+onMounted(() => {
+  const vantaEffect = HALO({
+    el: vantaRef.value,
+    THREE: THREE
+  })
+  VANTA.HALO({
+    el: vantaRef.value,
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: true,
+    minHeight: 200.0,
+    minWidth: 200.0,
+    scale: 1.0,
+    color1: 1000000,
+    color2: 16443110,
+    backgroundColor: 0x7192f,
+    skyColor: 0x144da0,
+    cloudShadowColor: 0x83157,
+  });
+})
 </script>
 <template>
     <div>
-        <titleBar :title="active" :showBack="false"/>
+        <!-- <titleBar :title="active" :showBack="false" v-if="active !=='home' || 'my'"/> -->
+       
+        <!-- <keep-alive></keep-alive> -->
+        <div ref="vantaRef" style="width: 100vw; height: 100vh;" class="bgColor">
+        
         <router-view></router-view>
+      </div>
         <var-bottom-navigation v-model:active="active" :fixed="true" @change="changeFn">
             <var-bottom-navigation-item name="home" label="home" icon="home" />
             <var-bottom-navigation-item name="about" label="about" icon="magnify" />
@@ -22,3 +52,14 @@ const changeFn =(path:any):void=>{
           </var-bottom-navigation>
     </div>
 </template>
+<style lang="scss">
+.var-bottom-navigation{
+  background-color: #fff0;
+
+  .var-bottom-navigation-item--active {
+    color: #fff;
+    background-color: #ffffff85;
+    transition: background-color 250ms;
+}
+}
+</style>

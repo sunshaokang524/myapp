@@ -34,16 +34,18 @@
 /* 设置整个页面为一个flex容器，居中对齐和垂直对齐 */
 
 .body {
+  
     width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(45deg, #6e7955, #006e54);
+    height: 100vh;
+  /*  background: linear-gradient(45deg, #6e7955, #006e54)*/;
 }
 
 /* 设置卡片的基本样式 */
 .card {
+    z-index: 1;
     position: relative;
     width: 350px;
     height: 200px;
@@ -66,7 +68,7 @@
     transform: translateX(-50%);
     width: 150px;
     height: 150px;
-    background: #fff;
+    background: #ffffff69;
     border-radius: 20px;
     box-shadow: 0 15px 50px rgba(218, 207, 207, 0.35);
     overflow: hidden;

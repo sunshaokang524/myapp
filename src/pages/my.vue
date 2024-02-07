@@ -4,5 +4,5 @@ import myInfo from '../components/my-info.vue'
 <template>
 
 
-    <div>  <myInfo></myInfo></div>
+    <div><myInfo></myInfo></div>
 </template>

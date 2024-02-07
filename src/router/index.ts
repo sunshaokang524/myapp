@@ -8,7 +8,7 @@ const My = () => import("../pages/My.vue");
 const Login = () => import("../pages/login.vue");
 const Main = () => import("../pages/main.vue");
 const routes: Array<RouteRecordRaw> = [
-  { path: "/", name: "/", component: Main },
+  { path: "/", name: "Main", component: Main },
   {
     path: "/main",
     name: "main",
