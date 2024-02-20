@@ -57,6 +57,7 @@ const login = (): void => {
       proxy.$Toast({
         content:res.message,hide:()=>{
           localStorage.setItem('Token',res.data.token)
+          localStorage.setItem('Id',res.data.id)
           router.replace('/home')
         }
       })
@@ -71,11 +72,17 @@ const login = (): void => {
 // 注册
 const signFlag = ref<boolean>(true)
 
+
 const signPhone = ref<string>()
+// 定义一个signPassWord变量，用于存储密码
 const signPassWord = ref<string>()
+// 定义一个signPassWord2变量，用于存储重复密码
 const signPassWord2 = ref<string>()
+// 定义一个pwFlag变量，用于存储密码是否可见
 const pwFlag = ref<boolean>(true)
+// 定义一个pwFlag1变量，用于存储重复密码是否可见
 const pwFlag1 = ref<boolean>(true)
+// 定义一个pwFlag2变量，用于存储重复密码是否可见
 const pwFlag2 = ref<boolean>(true)
 
 const goSign = (): void => {

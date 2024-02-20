@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    EditInfo: typeof import('./src/components/edit-info.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MyInfo: typeof import('./src/components/my-info.vue')['default']
     MyToast: typeof import('./src/components/my-toast/my-toast.vue')['default']
@@ -15,14 +16,21 @@ declare module 'vue' {
     Test: typeof import('./src/components/test.vue')['default']
     TitleBar: typeof import('./src/components/title-bar.vue')['default']
     VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
+    VarAvatar: typeof import('@varlet/ui')['_AvatarComponent']
     VarBottomNavigation: typeof import('@varlet/ui')['_BottomNavigationComponent']
     VarBottomNavigationItem: typeof import('@varlet/ui')['_BottomNavigationItemComponent']
     VarButton: typeof import('@varlet/ui')['_ButtonComponent']
     VarCard: typeof import('@varlet/ui')['_CardComponent']
+    VarCell: typeof import('@varlet/ui')['_CellComponent']
+    VarDatePicker: typeof import('@varlet/ui')['_DatePickerComponent']
     VarIcon: typeof import('@varlet/ui')['_IconComponent']
     VarInput: typeof import('@varlet/ui')['_InputComponent']
     VarPopup: typeof import('@varlet/ui')['_PopupComponent']
+    VarRadio: typeof import('@varlet/ui')['_RadioComponent']
+    VarRadioGroup: typeof import('@varlet/ui')['_RadioGroupComponent']
+    VarSpace: typeof import('@varlet/ui')['_SpaceComponent']
     VarSwipe: typeof import('@varlet/ui')['_SwipeComponent']
     VarSwipeItem: typeof import('@varlet/ui')['_SwipeItemComponent']
+    VarUploader: typeof import('@varlet/ui')['_UploaderComponent']
   }
 }
