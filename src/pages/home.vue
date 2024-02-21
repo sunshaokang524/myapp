@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { get } from '../../api/api'
 import { ref,onMounted } from 'vue'
-// import {getImg} from '../utile/index'
+import {getImg} from '../utile/index'
 const imgList: any = ref([])
 onMounted(()=>{
+    console.log('','<===getImg')
     get('/swipe').then((res: any) => {
     imgList.value = res.data.imgList
     console.log(imgList.value, '<===res')

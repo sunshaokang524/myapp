@@ -6,7 +6,12 @@ import { VarletUIResolver } from 'unplugin-vue-components/resolvers'
 import postCssPxToRem from 'postcss-pxtorem'
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), components({
+  plugins: [vue({
+    template: {
+      transformAssetUrls: {
+        'var-avatar': ['src']
+      }
+    }}), components({
     resolvers: [VarletUIResolver()]
   }),
   autoImport({
