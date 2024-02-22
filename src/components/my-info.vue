@@ -3,20 +3,20 @@
 
         <div class="card">
             <div class="imgBox">
-                <img src="../assets/1.jpg" alt="">
+                <img :src="item.avatar" alt="">
             </div>
             <div class="content">
                 <div class="details">
-                    <h2>孙少康<br />
-                        <p>男</p>
+                    <h2>{{item.nickname}}<br />
+                        <p>{{item.nativePlace}}</p>
                     </h2>
                     <div class="data">
-                        <h3>电话<br /><sub>13313354284</sub></h3>
-                        <h3>生日<br /><sub>1997年5月24日</sub></h3>
-                        <h3>籍贯<br /><sub>中国·河北·秦皇岛</sub></h3>
+                        <h3>电话<br /><sub>{{item.phone}}</sub></h3>
+                        <h3>年龄<br /><sub>{{item.age}}</sub></h3>
+                        <h3>性别<br /><sub>{{sexDic[item.sex]}}</sub></h3>
                     </div>
                     <div class="actionBtn">
-                        <button>Follow</button>
+                        <button @click="Follow">Follow</button>
                         <button>Message</button>
                     </div>
                 </div>
@@ -26,8 +26,24 @@
     </div>
 </template>
 
-<script>
-
+<script setup lang="ts">
+import { defineProps } from 'vue';
+defineProps({
+    item:{
+        type:Object,
+        default:()=>({})
+    }
+})
+const emit = defineEmits(['Follow'])
+const sexDic:any={
+    0:'男',
+    1:'女',
+    2:'其他'
+}
+const Follow=()=>{
+    emit('Follow','wwewe')
+    console.log('关注')
+}
 </script>
 
 <style scoped>

@@ -1,7 +1,11 @@
 <template>
   <div class="edit-info">
     <div class="glass-container" id="glass">
-      <var-avatar src="../assets/1.jpg" size="100" :round="false" />
+      <var-uploader
+        v-model="imgPath"
+        @after-read="handleAfterRead"
+        maxlength="1"
+      ></var-uploader>
 
       <var-input
         style="width: 285px"
@@ -54,21 +58,24 @@
         @click="show_over"
         readonly
       />
+      <div id="frozen-btn">
+        <button class="green" @click="take_off">提交</button>
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 // import { getImg } from "../utile/index";
-import { ref, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance, onUnmounted } from "vue";
 import area from "@varlet/ui/json/area.json";
+import { post } from "../../api/api";
 const { proxy }: any = getCurrentInstance();
 const nickname = ref<string>("");
 const age = ref<string>("");
 const phone = ref<string>("");
 const sex = ref<number>(0);
-const imgPath = ref<string>("192.168.255.174:5000/");
+const imgPath = ref<any>("");
 const native_place = ref<string>("");
-
 const show_over = () => {
   proxy.$Picker({
     columns: area,
@@ -77,6 +84,45 @@ const show_over = () => {
     },
   });
 };
+let timer: any;
+const handleAfterRead = (file: any) => {
+  file.state = "loading";
+
+  timer = window.setInterval(() => {
+    if (file.progress === 100) {
+      window.clearInterval(timer);
+      file.state = "success";
+      return;
+    }
+    
+    file.progress += 10;
+  }, 250);
+  console.log(file);
+};
+const take_off = () => {
+  let params = {
+    nickname: nickname.value,
+    age: age.value,
+    phone: phone.value,
+    sex: sex.value,
+    nativePlace: native_place.value,
+    avatar: imgPath.value[0].url,
+    id: window.localStorage.getItem("Id"),
+  };
+  console.log(params);
+  post("/personInfo", params).then((res: any) => {
+    getInfo(res.data.id)
+    console.log(res);
+  });
+ 
+};
+const getInfo = (id:any)=>{
+    emit('getInfo',id)
+  }
+  const emit = defineEmits(["getInfo"]);
+onUnmounted(() => {
+  window.clearInterval(timer);
+});
 </script>
 
 <style lang="scss">
@@ -87,13 +133,13 @@ const show_over = () => {
   align-items: center;
   z-index: 1;
   .glass-container {
-    margin-top: 60px;
+    margin-top: 30px;
     padding: 20px 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     width: 320px;
-    height: 500px;
+    height: 520px;
     color: white;
     display: flex;
     //   justify-content: center;
@@ -134,6 +180,64 @@ const show_over = () => {
     position: fixed;
     bottom: 0;
     z-index: 9;
+  }
+  .var-uploader__file-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  #frozen-btn {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 300px;
+  }
+
+  button {
+    border: 0;
+    margin: 20px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px 50px;
+    border-radius: 50px;
+    color: white;
+    outline: none;
+    position: relative;
+  }
+
+  button:before {
+    content: "";
+    display: block;
+    background: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0.4) 50%
+    );
+    background-size: 210% 100%;
+    background-position: right bottom;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 50px;
+    transition: all 1s;
+    -webkit-transition: all 1s;
+  }
+
+  .green {
+    background-image: linear-gradient(to right, #25aae1, #40e495);
+    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+  }
+
+  .green:hover:before {
+    background-position: left bottom;
   }
 }
 </style>

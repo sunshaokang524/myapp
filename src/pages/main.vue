@@ -37,9 +37,6 @@ onMounted(() => {
 </script>
 <template>
     <div>
-        <!-- <titleBar :title="active" :showBack="false" v-if="active !=='home' || 'my'"/> -->
-       
-        <!-- <keep-alive></keep-alive> -->
         <div ref="vantaRef" style="width: 100vw; height: 100vh;" class="bgColor">
         
         <router-view></router-view>
