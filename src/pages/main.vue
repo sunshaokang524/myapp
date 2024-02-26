@@ -42,10 +42,10 @@ onMounted(() => {
         <router-view></router-view>
       </div>
         <var-bottom-navigation v-model:active="active" :fixed="true" @change="changeFn">
-            <var-bottom-navigation-item name="home" label="home" icon="home" />
+            <var-bottom-navigation-item name="home" label="首页" icon="home" />
             <var-bottom-navigation-item name="about" label="about" icon="magnify" />
             <var-bottom-navigation-item name="info" label="info" icon="heart" />
-            <var-bottom-navigation-item name="my" label="my" icon="account-circle" />
+            <var-bottom-navigation-item name="my" label="我的" icon="account-circle" />
           </var-bottom-navigation>
     </div>
 </template>
