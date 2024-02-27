@@ -7,6 +7,7 @@ const router= useRouter()
 const active =ref('home')
 
 const changeFn =(path:any):void=>{
+  console.log(active.value);
   router.push({
     name:path
   })
@@ -43,8 +44,8 @@ onMounted(() => {
       </div>
         <var-bottom-navigation v-model:active="active" :fixed="true" @change="changeFn">
             <var-bottom-navigation-item name="home" label="首页" icon="home" />
-            <var-bottom-navigation-item name="about" label="about" icon="magnify" />
-            <var-bottom-navigation-item name="info" label="info" icon="heart" />
+            <var-bottom-navigation-item name="about" label="动态" icon="magnify" />
+            <var-bottom-navigation-item name="info" label="好友" icon="heart" />
             <var-bottom-navigation-item name="my" label="我的" icon="account-circle" />
           </var-bottom-navigation>
     </div>
