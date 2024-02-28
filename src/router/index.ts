@@ -4,9 +4,10 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 const Home = () => import("../pages/home.vue");
 const About = () => import("../pages/about.vue");
 const Info = () => import("../pages/info.vue");
-const My = () => import("../pages/My.vue");
+const My = () => import("../pages/my.vue");
 const Login = () => import("../pages/login.vue");
 const Main = () => import("../pages/main.vue");
+const Edit = () => import("../pages/about/edit.vue");
 const routes: Array<RouteRecordRaw> = [
   { path: "/", name: "Main", component: Main },
   {
@@ -14,13 +15,43 @@ const routes: Array<RouteRecordRaw> = [
     name: "main",
     component: Main,
     children: [
-      { path: "/home", name: "home", component: Home },
-      { path: "/about", name: "about", component: About },
-      { path: "/info", name: "info", component: Info },
-      { path: "/my", name: "my", component: My },
+      {
+        path: "/home",
+        name: "home",
+        component: Home,
+        meta: {
+          keepAlive: true, // 不缓存该页面
+        },
+      },
+      {
+        path: "/about",
+        name: "about",
+        component: About,
+        children: [],
+        meta: {
+          keepAlive: true, // 不缓存该页面
+        },
+      },
+      {
+        path: "/info",
+        name: "info",
+        component: Info,
+        meta: {
+          keepAlive: true, // 不缓存该页面
+        },
+      },
+      {
+        path: "/my",
+        name: "my",
+        component: My,
+        meta: {
+          keepAlive: true, // 不缓存该页面
+        },
+      },
     ],
   },
   { path: "/login", name: "login", component: Login },
+  { path: "/about/edit", name: "edit", component: Edit },
 ];
 const router = createRouter({
   history: createWebHashHistory("index"),
