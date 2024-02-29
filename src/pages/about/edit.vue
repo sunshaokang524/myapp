@@ -21,7 +21,7 @@
         textarea
         v-model="textValue"
       />
-      <div class="button1">
+      <div class="button1" @click="addDynamic">
         <div>发布动态</div>
       </div>
     </div>
@@ -30,6 +30,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { post } from "../../../api/api.ts";
+import { useRouter } from "vue-router";
+const router = useRouter();
 let timer: any;
 const imgPath = ref<any>([]);
 const textValue = ref<string>("");
@@ -47,6 +50,11 @@ const handleAfterRead = (file: any) => {
     file.progress += 10;
   }, 250);
 };
+const addDynamic = () => {
+  post('/addDynamic',{imgPath:imgPath.value,id:localStorage.getItem('Id'),content:textValue.value}).then(res=>{
+    router.replace({name:'about',params:{tag:'about'}})
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -77,6 +85,7 @@ const handleAfterRead = (file: any) => {
   }
   .upload-img {
     width: 100%;
+  
     min-height: 200px;
     border: 2px solid white;
     border-radius: 5px;

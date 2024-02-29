@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import NET from "vanta/src/vanta.net"; //导入动态样式逻辑
 import * as THREE from "three"; //导入样式
 const router = useRouter();
-const active = ref("home");
+const route = useRoute();
+console.log(route.params.tag, " router.currentRoute.value", router.currentRoute.value);
+const active = ref(router.currentRoute.value.name==="Main"?'home':router.currentRoute.value.name);
+ 
 
 const changeFn = (path: any): void => {
   console.log(active.value);
@@ -13,7 +16,7 @@ const changeFn = (path: any): void => {
   });
   // 背景
 };
-changeFn("home");
+// changeFn(route.params.tag || "home");
 const vantaRef: any = ref(null);
 onMounted(() => {
   const vantaEffect = NET({
@@ -32,16 +35,17 @@ onMounted(() => {
     color2: 16443110,
     backgroundColor: 0x0,
   });
+  
 });
 </script>
 <template>
   <div>
     <div ref="vantaRef" style="width: 100vw; height: 100vh" class="bgColor">
-      <router-view  v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" :key="$route.path" />
-          </keep-alive>
-        </router-view>
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" :key="$route.path" />
+        </keep-alive>
+      </router-view>
     </div>
     <var-bottom-navigation
       v-model:active="active"
