@@ -29,30 +29,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref,getCurrentInstance } from "vue";
 import { post } from "../../../api/api.ts";
 import { useRouter } from "vue-router";
+const { proxy }: any = getCurrentInstance();
 const router = useRouter();
 let timer: any;
 const imgPath = ref<any>([]);
 const textValue = ref<string>("");
 
 const handleAfterRead = (file: any) => {
+  // 设置文件状态为加载中
   file.state = "loading";
 
+  // 设置定时器，每250ms检查一次文件读取进度
   timer = window.setInterval(() => {
+    // 如果文件读取进度达到100%，清除定时器，并将文件状态设置为成功，并结束函数
     if (file.progress === 100) {
       window.clearInterval(timer);
       file.state = "success";
       return;
     }
 
+    // 每次读取25%
     file.progress += 10;
   }, 250);
 };
+
 const addDynamic = () => {
+  // 发送请求，添加动态
   post('/addDynamic',{imgPath:imgPath.value,id:localStorage.getItem('Id'),content:textValue.value}).then(res=>{
-    router.replace({name:'about',params:{tag:'about'}})
+    // 弹出提示框，提示发布成功
+    proxy.$Toast({content:'发布成功！',hide:()=>{
+      // 跳转到关于页面
+      router.replace({name:'about',params:{tag:'about'}})
+    }})
   })
 }
 </script>

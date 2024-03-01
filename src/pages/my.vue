@@ -1,7 +1,7 @@
 <template>
   <div>
     <var-skeleton :loading="loading"
-      >加载的数据
+    card  >
       <myInfo v-if="my_id" :item="personInfo"></myInfo>
       <editInfo v-else @getInfo="getInfo"></editInfo>
     </var-skeleton>

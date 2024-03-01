@@ -16,8 +16,8 @@
                         <h3>性别<br /><sub>{{sexDic[item.sex]}}</sub></h3>
                     </div>
                     <div class="actionBtn">
-                        <button @click="Follow">Follow</button>
-                        <button>Message</button>
+                        <button @click="Follow">修改信息</button>
+                        <button>我的动态</button>
                     </div>
                 </div>
             </div>
