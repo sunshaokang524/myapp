@@ -58,6 +58,7 @@ const login = (): void => {
         content:res.message,hide:()=>{
           localStorage.setItem('Token',res.data.token)
           localStorage.setItem('Id',res.data.id)
+          localStorage.setItem('Account',res.data.account)
           router.replace('/home')
         }
       })

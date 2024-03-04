@@ -8,6 +8,7 @@ const My = () => import("../pages/my.vue");
 const Login = () => import("../pages/login.vue");
 const Main = () => import("../pages/main.vue");
 const Edit = () => import("../pages/about/edit.vue");
+const OtherInfo = () => import("../pages/info/otherInfo.vue");
 const routes: Array<RouteRecordRaw> = [
   { path: "/", name: "Main", component: Main },
   {
@@ -52,6 +53,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   { path: "/login", name: "login", component: Login },
   { path: "/about/edit", name: "edit", component: Edit },
+  { path: "/info/otherInfo", name: "otherInfo", component: OtherInfo },
 ];
 const router = createRouter({
   history: createWebHashHistory("index"),

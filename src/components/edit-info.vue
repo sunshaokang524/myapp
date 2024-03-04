@@ -108,6 +108,7 @@ const take_off = () => {
     nativePlace: native_place.value,
     avatar: imgPath.value[0].url,
     id: window.localStorage.getItem("Id"),
+    account: window.localStorage.getItem("Account"),
   };
   console.log(params);
   post("/personInfo", params).then((res: any) => {
@@ -139,7 +140,7 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     width: 320px;
-    height: 520px;
+    height: 580px;
     color: white;
     display: flex;
     //   justify-content: center;

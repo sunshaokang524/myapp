@@ -59,7 +59,7 @@
                     @click="getLike(true, item.infoId)"
                   />
                 </div>
-                <span>{{ item.nickname }}</span>
+                <span @click="goOtherInfo(item)">{{ item.nickname }}</span>
               </div>
             </div>
           </template>
@@ -67,9 +67,12 @@
       </var-list>
     </div>
     <var-fab color="rgba(118, 140, 165, 0.562)" bottom="100px">
+      <var-tooltip content="关注动态"  placement="left-start">
       <var-button type="info" icon-container color="rgba(118, 140, 165, 0.562)">
         <var-icon name="account-circle" :size="24" />
       </var-button>
+    </var-tooltip>
+    <var-tooltip content="发布动态" placement="left-start">
       <var-button
         type="success"
         icon-container
@@ -78,6 +81,7 @@
       >
         <var-icon name="translate" :size="24" />
       </var-button>
+      </var-tooltip>
     </var-fab>
   </div>
 </template>
@@ -94,19 +98,27 @@ const imgList: any = ref([]);
 const pageNum = ref<number>(1);
 const finished = ref<boolean>(false);
 const listLoad = ref<boolean>(false);
-const sum =ref<number>(0);
+const sum = ref<number>(0);
 const loadFn = () => {
   pageNum.value++;
   console.log(pageNum.value);
- if(imgList.value.length===sum.value){
-  finished.value=true;
-  listLoad.value=false;
-  return;
- }
-   getDynamicState(5, pageNum.value);
+  if (imgList.value.length === sum.value) {
+    finished.value = true;
+    listLoad.value = false;
+    return;
+  }
+  getDynamicState(5, pageNum.value);
 };
 const goEdite = () => {
-  router.push("/about/edit");
+  get("/personInfo", { id: localStorage.getItem("Id") }).then((res: any) => {
+    if (res.code == 200) {
+      router.push("/about/edit");
+    } else if (res.code == 406) {
+      proxy.$Toast({ content: "还未填写个人信息，请点击我的填写个人信息" });
+      return;
+    }
+    // loading.value = false;
+  });
 };
 const getLike = (type: boolean, infoId: any) => {
   console.log(type, infoId);
@@ -140,6 +152,19 @@ const getDynamicState = (pageSize: number = 5, pageNum: number) => {
     sum.value = res.data.sum;
   });
 };
+const goOtherInfo = (item: any) => {
+  console.log(item);
+  router.push({
+    name: "otherInfo",
+    state: {
+   
+        nickname: item.nickname,
+        account: item.account,
+        infoId: item.infoId,
+    
+    },
+  });
+};
 onMounted(() => {
   console.log("", "<===getImg");
   getDynamicState(5, pageNum.value);
@@ -149,17 +174,14 @@ onMounted(() => {
 <style scoped lang="scss">
 .content {
   height: 100vh;
-
 }
 .img-box {
-
   width: 100%;
-  height:100vh;
+  height: 100vh;
   overflow-y: scroll;
   overflow-x: hidden;
   position: relative;
   z-index: 1;
-
 }
 img {
   position: relative;

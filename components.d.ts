@@ -11,6 +11,7 @@ declare module 'vue' {
     MyInfo: typeof import('./src/components/my-info.vue')['default']
     MyPicker: typeof import('./src/components/my-picker/my-picker.vue')['default']
     MyToast: typeof import('./src/components/my-toast/my-toast.vue')['default']
+    OtherInfo: typeof import('./src/components/other-info.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TitleBar: typeof import('./src/components/title-bar.vue')['default']
@@ -31,6 +32,7 @@ declare module 'vue' {
     VarSkeleton: typeof import('@varlet/ui')['_SkeletonComponent']
     VarSwipe: typeof import('@varlet/ui')['_SwipeComponent']
     VarSwipeItem: typeof import('@varlet/ui')['_SwipeItemComponent']
+    VarTooltip: typeof import('@varlet/ui')['_TooltipComponent']
     VarUploader: typeof import('@varlet/ui')['_UploaderComponent']
   }
 }
