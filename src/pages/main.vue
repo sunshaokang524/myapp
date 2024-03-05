@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import {get} from '../../api/api'
 import NET from "vanta/src/vanta.net"; //导入动态样式逻辑
 import * as THREE from "three"; //导入样式
 const router = useRouter();
 const route = useRoute();
 console.log(route.params.tag, " router.currentRoute.value", router.currentRoute.value);
 const active = ref(router.currentRoute.value.name==="Main"?'home':router.currentRoute.value.name);
- 
+ get('/getInfo',{id:localStorage.getItem('Id')}).then(res=>{
+  console.log(res,'res')
+ })
 
 const changeFn = (path: any): void => {
   console.log(active.value);
