@@ -16,6 +16,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     TitleBar: typeof import('./src/components/title-bar.vue')['default']
     VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
+    VarBadge: typeof import('@varlet/ui')['_BadgeComponent']
     VarBottomNavigation: typeof import('@varlet/ui')['_BottomNavigationComponent']
     VarBottomNavigationItem: typeof import('@varlet/ui')['_BottomNavigationItemComponent']
     VarButton: typeof import('@varlet/ui')['_ButtonComponent']

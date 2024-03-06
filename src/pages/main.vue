@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import {get} from '../../api/api'
+import { get } from "../../api/api";
 import NET from "vanta/src/vanta.net"; //导入动态样式逻辑
 import * as THREE from "three"; //导入样式
 const router = useRouter();
 const route = useRoute();
-console.log(route.params.tag, " router.currentRoute.value", router.currentRoute.value);
-const active = ref(router.currentRoute.value.name==="Main"?'home':router.currentRoute.value.name);
- get('/getInfo',{id:localStorage.getItem('Id')}).then(res=>{
-  console.log(res,'res')
- })
+const infoValue:any = ref(0);
+console.log(
+  route.params.tag,
+  " router.currentRoute.value",
+  router.currentRoute.value
+);
+const active = ref(
+  router.currentRoute.value.name === "Main"
+    ? "home"
+    : router.currentRoute.value.name
+);
+get("/getInfo", { id: localStorage.getItem("Id") }).then((res:any) => {
+ const newInfo=  res.data[0].infoList.filter((item:any)=>item.isRead===false)
+  infoValue.value=newInfo.length
+});
 
 const changeFn = (path: any): void => {
-  console.log(active.value);
   router.push({
     name: path,
   });
@@ -38,7 +47,6 @@ onMounted(() => {
     color2: 16443110,
     backgroundColor: 0x0,
   });
-  
 });
 </script>
 <template>
@@ -57,7 +65,14 @@ onMounted(() => {
     >
       <var-bottom-navigation-item name="home" label="首页" icon="home" />
       <var-bottom-navigation-item name="about" label="动态" icon="magnify" />
-      <var-bottom-navigation-item name="info" label="好友" icon="heart" />
+      <var-badge
+        type="danger"
+        :value="infoValue"
+        :max-value="99"
+        :hidden="infoValue === 0"
+      >
+        <var-bottom-navigation-item name="info" label="好友" icon="heart" />
+      </var-badge>
       <var-bottom-navigation-item
         name="my"
         label="我的"
