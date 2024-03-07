@@ -153,7 +153,7 @@ const getDynamicState = (pageSize: number = 5, pageNum: number) => {
   });
 };
 const goOtherInfo = (item: any) => {
-  console.log(item);
+  if(item.account==localStorage.getItem("Account")) return
   router.push({
     name: "otherInfo",
     state: {

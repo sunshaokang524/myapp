@@ -7,11 +7,7 @@ import * as THREE from "three"; //导入样式
 const router = useRouter();
 const route = useRoute();
 const infoValue:any = ref(0);
-console.log(
-  route.params.tag,
-  " router.currentRoute.value",
-  router.currentRoute.value
-);
+
 const active = ref(
   router.currentRoute.value.name === "Main"
     ? "home"
@@ -23,6 +19,9 @@ get("/getInfo", { id: localStorage.getItem("Id") }).then((res:any) => {
 });
 
 const changeFn = (path: any): void => {
+  if(path==='info'){
+    infoValue.value=0
+  }
   router.push({
     name: path,
   });
@@ -70,8 +69,9 @@ onMounted(() => {
         :value="infoValue"
         :max-value="99"
         :hidden="infoValue === 0"
+        style="z-index: 100"
       >
-        <var-bottom-navigation-item name="info" label="好友" icon="heart" />
+        <var-bottom-navigation-item name="info" label="消息" icon="heart" />
       </var-badge>
       <var-bottom-navigation-item
         name="my"

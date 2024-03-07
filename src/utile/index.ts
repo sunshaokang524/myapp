@@ -8,6 +8,7 @@ export function getImg(url:string):string{
  * 处理时间
  */
 export function getTime(date:any){
+  console.log(date)
     const inputDate:any = new Date(Number(date));  
     if (isNaN(inputDate)) {  
       return "无效的日期时间字符串";  
