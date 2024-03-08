@@ -6,21 +6,23 @@ import NET from "vanta/src/vanta.net"; //导入动态样式逻辑
 import * as THREE from "three"; //导入样式
 const router = useRouter();
 const route = useRoute();
-const infoValue:any = ref(0);
+const infoValue: any = ref(0);
 
 const active = ref(
   router.currentRoute.value.name === "Main"
     ? "home"
     : router.currentRoute.value.name
 );
-get("/getInfo", { id: localStorage.getItem("Id") }).then((res:any) => {
- const newInfo=  res.data[0].infoList.filter((item:any)=>item.isRead===false)
-  infoValue.value=newInfo.length
+get("/getInfo", { id: localStorage.getItem("Id") }).then((res: any) => {
+  const newInfo = res.data[0].infoList.filter(
+    (item: any) => item.isRead === false
+  );
+  infoValue.value = newInfo.length;
 });
 
 const changeFn = (path: any): void => {
-  if(path==='info'){
-    infoValue.value=0
+  if (path === "info") {
+    infoValue.value = 0;
   }
   router.push({
     name: path,
@@ -71,7 +73,12 @@ onMounted(() => {
         :hidden="infoValue === 0"
         style="z-index: 100"
       >
-        <var-bottom-navigation-item name="info" label="消息" icon="heart" />
+        <var-bottom-navigation-item
+          name="info"
+          label="消息"
+          icon="heart"
+          style="width: 100%"
+        />
       </var-badge>
       <var-bottom-navigation-item
         name="my"
@@ -81,7 +88,7 @@ onMounted(() => {
     </var-bottom-navigation>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .var-bottom-navigation {
   background-color: #fff0;
 
@@ -89,6 +96,9 @@ onMounted(() => {
     color: #fff;
     background-color: #ffffff85;
     transition: background-color 250ms;
+  }
+  ::v-deep .var-badge {
+    width: 25%;
   }
 }
 </style>

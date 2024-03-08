@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { get, post } from "../../api/api";
-import { ref,getCurrentInstance } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import { getTime } from "../utile/index";
 import { Dialog } from "@varlet/ui";
-const {proxy} = getCurrentInstance() as any
+import { useRouter } from "vue-router";
+const router = useRouter();
+const { proxy } = getCurrentInstance() as any;
 
 // 消息列表
 const infoList: any = ref([]);
@@ -12,8 +14,9 @@ const getInfo = () => {
     infoList.value = res.data[0].infoList;
   });
 };
-getInfo()
+getInfo();
 const checkInfo = (item: any) => {
+  if (item.isRead) return;
   Dialog({
     title: item.type == 0 ? "系统消息" : "好友消息",
     message: `${item.sendNickName}（${item.sendAccount}）${item.content}`,
@@ -32,11 +35,10 @@ const checkInfo = (item: any) => {
         infoId: item.infoId,
       }).then((res) => {
         proxy.$Toast({
-            content: res.message,
-        })
-        getInfo()
+          content: res.message,
+        });
+        getInfo();
       });
-      console.log("同意", item);
     },
     onCancel: () => {
       post("/confirmFriend", {
@@ -45,19 +47,51 @@ const checkInfo = (item: any) => {
         type: false,
       }).then((res) => {
         proxy.$Toast({
-            content: res.message,
-        })
-        getInfo()
+          content: res.message,
+        });
+        getInfo();
       });
-      console.log("拒绝", item);
     },
   });
 };
+
+const active: any = ref(0);
+const changeFn = (val: any) => {
+  active.value = val;
+  if (val == 1) {
+    getFriend();
+  }
+};
 // 好友列表
+const friendList: any = ref([]);
+const getFriend = () => {
+  get("/getFriends", { id: localStorage.getItem("Id") }).then((res) => {
+    console.log(res);
+    friendList.value = res.data;
+  });
+};
+
+const goLink = (item: any) => {
+  router.push({
+    path: "/info/chat",
+    state: item,
+  });
+};
 </script>
 <template>
   <div class="info">
-    <div class="info-box" v-if="infoList.length > 0">
+    <var-tabs
+      v-model:active="active"
+      style="margin-top: 20px"
+      color="rgba(255,255,255,0)"
+      active-color="rgba(255,255,255)"
+      @change="changeFn"
+      :sticky="true"
+    >
+      <var-tab>消息</var-tab>
+      <var-tab>好友</var-tab>
+    </var-tabs>
+    <div class="info-box" v-if="active == 0">
       <div
         class="glass-container"
         id="glass"
@@ -75,6 +109,7 @@ const checkInfo = (item: any) => {
           :hidden="item.isRead"
         >
           <div class="info-item">
+            <div class="info-state" v-if="item.isRead">已处理</div>
             <div class="info-type">
               {{ item.type == 0 ? "系统消息" : "好友消息" }}
               <var-icon class="bell-icon" name="bell" size="14" />
@@ -88,15 +123,33 @@ const checkInfo = (item: any) => {
         </var-badge>
       </div>
     </div>
+    <div v-else class="info-box">
+      <div
+        class="glass-container"
+        id="glass"
+        v-for="(item, i) in friendList"
+        :key="i"
+      >
+        <div class="friend-box" @click="goLink(item)">
+          <div class="friend-img">
+            <var-avatar :src="item.avatar" size="70" />
+          </div>
+          <div class="friend-name">{{ item.nickName }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
 .info {
+  height: 100vh;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .info-box {
-  height: 100vh;
+  height: 100%;
 
   overflow: hidden;
   overflow-y: scroll;
@@ -128,6 +181,12 @@ const checkInfo = (item: any) => {
     justify-content: center;
     align-items: center;
   }
+  .info-state {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #aaa7a7;
+  }
   .info-type {
     position: absolute;
     top: 10px;
@@ -157,6 +216,16 @@ const checkInfo = (item: any) => {
   .info-title {
     font-size: 20px;
     font-weight: 700;
+  }
+}
+.friend-box {
+  display: flex;
+  width: 100%;
+
+  .friend-img {
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
   }
 }
 </style>
