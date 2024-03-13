@@ -61,6 +61,7 @@ const router = createRouter({
   history: createWebHashHistory("index"),
   routes,
 });
+ // @ts-ignore
 router.beforeEach((to, from, next) => {
   if (to.path == "/login" || to.path == "/user/register") {
     // 登录或者注册才可以往下进行

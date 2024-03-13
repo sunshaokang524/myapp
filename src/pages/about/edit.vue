@@ -59,6 +59,7 @@ const handleAfterRead = (file: any) => {
 const addDynamic = () => {
   // 发送请求，添加动态
   post('/addDynamic',{imgPath:imgPath.value,id:localStorage.getItem('Id'),content:textValue.value}).then(res=>{
+    console.log(res);
     // 弹出提示框，提示发布成功
     proxy.$Toast({content:'发布成功！',hide:()=>{
       // 跳转到关于页面

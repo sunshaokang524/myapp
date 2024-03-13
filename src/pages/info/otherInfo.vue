@@ -3,7 +3,7 @@
     <titleBar :round="false" title="空间"></titleBar>
     <otherInfo
       :item="info"
-      @Follow="addFollow"
+      @Follow:any="addFollow"
       @Friend="addFriends"
     ></otherInfo>
   </div>

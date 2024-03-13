@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import * as THREE from 'three'//导入样式
+// @ts-ignore
 import CLOUDS from 'vanta/src/vanta.clouds'//导入动态样式逻辑
 import { post } from '../../api/api'
 import { getCurrentInstance } from 'vue';
@@ -110,6 +111,8 @@ onMounted(() => {
     el: vantaRef.value,
     THREE: THREE
   })
+  console.log(vantaEffect)
+// @ts-ignore
   VANTA.CLOUDS({
     el: vantaRef.value,
     mouseControls: true,

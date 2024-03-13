@@ -36,6 +36,7 @@ request.interceptors.response.use(
         Toast({content:'登录状态过期，请重新登录！',time:3000,hide:()=>{
           localStorage.removeItem('Token')
           router.replace("/login");
+          // @ts-ignore
         }}).show()
       
         break;

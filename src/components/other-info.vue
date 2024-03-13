@@ -51,13 +51,13 @@ defineProps({
   },
 });
 
-const emit = defineEmits(["Follow"]);
+const emit = defineEmits(["Follow","Friend"]);
 const sexDic: any = {
   0: "男",
   1: "女",
   2: "其他",
 };
-let flag:boolean = ref(false)
+let flag = ref<boolean>(false)
 const Follow = (account: string, type: boolean) => {
   emit("Follow", account, !type);
   console.log("关注");

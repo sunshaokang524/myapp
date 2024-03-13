@@ -1,14 +1,16 @@
+// @ts-nocheck
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { get } from "../../api/api";
+// @ts-ignore
 import NET from "vanta/src/vanta.net"; //导入动态样式逻辑
 import * as THREE from "three"; //导入样式
 const router = useRouter();
-const route = useRoute();
+
 const infoValue: any = ref(0);
 
-const active = ref(
+const active:any = ref(
   router.currentRoute.value.name === "Main"
     ? "home"
     : router.currentRoute.value.name
@@ -32,10 +34,12 @@ const changeFn = (path: any): void => {
 // changeFn(route.params.tag || "home");
 const vantaRef: any = ref(null);
 onMounted(() => {
+  // @ts-ignore
   const vantaEffect = NET({
     el: vantaRef.value,
     THREE: THREE,
   });
+  // @ts-ignore
   VANTA.NET({
     el: vantaRef.value,
     mouseControls: true,
@@ -59,6 +63,7 @@ onMounted(() => {
         </keep-alive>
       </router-view>
     </div>
+
     <var-bottom-navigation
       v-model:active="active"
       :fixed="true"

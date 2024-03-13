@@ -21,7 +21,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+// import {post} from '../../../api/api'
+import io from 'socket.io-client';
 const infoValue = ref<string>("");
+  const chatList = ref([]);
 const rowsValue = computed(() => {
   let n = 1;
   n = Math.ceil(infoValue.value.length / 18);
@@ -29,22 +32,30 @@ const rowsValue = computed(() => {
   if (n > 5) n = 5;
   return n;
 });
-const messages = ref<any[]>([]);
-const socket = new WebSocket("ws://192.168.0.3:8080");
-console.log("socket", socket);
-socket.onmessage = (event) => {
-  const message = JSON.parse(event.data);
-  console.log("message", message);
-  messages.value.push(message);
-};
-const sendInfo = () => {
-  console.log("sendInfo", infoValue.value);
-//   socket.onopen = function (event) {
-    console.log("Connected to WebSocket server!");
-    // 连接建立后，可以发送消息
-    socket.send(JSON.stringify({ message: infoValue.value }));
-//   };
-};
+let socket = io('http://192.168.0.3:3001'); // 连接后端的 socket.io 方法里面传服务端的ip
+      socket.on('connect', () => {
+        console.log(socket.id, '监听客户端连接成功-connect');
+      });
+      socket.on('fresh-message', (data) => {
+        // 自定义一个事件来获取，服务端推送回来的消息列表
+        chatList.value = data;
+        console.log(chatList.value, '监听客户端连接成功-fresh-message');
+      });
+
+
+      const account = history.state.account;
+    const sendInfo = () => {
+      // 发送消息，通过自定义事件 send-message
+      socket.emit('send-message', account, infoValue.value);
+      // chatMsg.value = '';
+    };
+
+
+// const messages = ref<any[]>([]);
+
+// const sendInfo = () => {
+  
+// };
 </script>
 
 <style lang="scss" scoped>

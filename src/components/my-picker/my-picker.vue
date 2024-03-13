@@ -4,8 +4,8 @@
       <var-picker
         class="picker_live"
         cascade
-        :columns="columns"
-        @confirm="handleChange"
+        :columns:any="columns"
+        @confirm:any="handleChange"
       />
     </var-overlay>
   </div>
@@ -20,7 +20,7 @@ const props=defineProps({
   },
   selected:{
     type:Function,
-    default:(val)=>{
+    default:(val:any)=>{
         console.log(val)
     }
   }
@@ -31,7 +31,7 @@ const show = () => {
 };
 const handleChange = (value: any, index: number) => {
     props.selected(value)
-// console.log(value, index);
+console.log(value, index);
 }
 defineExpose({
   show,
