@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import { get, post } from "../../api/api";
 import { getTime } from "../utile/index";
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import { ImagePreview } from "@varlet/ui";
 import { useRouter } from "vue-router";
 const { proxy }: any = getCurrentInstance();
@@ -107,7 +107,7 @@ const loadFn = () => {
     listLoad.value = false;
     return;
   }
-  getDynamicState(5, pageNum.value);
+  getDynamicState(3, pageNum.value);
 };
 const goEdite = () => {
   get("/personInfo", { id: localStorage.getItem("Id") }).then((res: any) => {
@@ -165,10 +165,10 @@ const goOtherInfo = (item: any) => {
     },
   });
 };
-onMounted(() => {
+// onMounted(() => {
   console.log("", "<===getImg");
-  getDynamicState(5, pageNum.value);
-});
+  getDynamicState(3, pageNum.value);
+// });
 </script>
 
 <style scoped lang="scss">

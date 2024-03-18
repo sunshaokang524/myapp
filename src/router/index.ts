@@ -10,6 +10,7 @@ const Main = () => import("../pages/main.vue");
 const Edit = () => import("../pages/about/edit.vue");
 const OtherInfo = () => import("../pages/info/otherInfo.vue");
 const Chat = () => import("../pages/info/chat.vue");
+const Ai = () => import("../pages/ai/index.vue");
 const routes: Array<RouteRecordRaw> = [
   { path: "/", name: "Main", component: Main },
   {
@@ -56,6 +57,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/about/edit", name: "edit", component: Edit },
   { path: "/info/otherInfo", name: "otherInfo", component: OtherInfo },
   { path: "/info/chat", name: "Chat", component: Chat },
+  { path: "/ai", name: "Ai", component: Ai },
 ];
 const router = createRouter({
   history: createWebHashHistory("index"),

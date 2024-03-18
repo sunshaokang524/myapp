@@ -14,6 +14,7 @@ declare module 'vue' {
     OtherInfo: typeof import('./src/components/other-info.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Test: typeof import('./src/components/test/test.vue')['default']
     TitleBar: typeof import('./src/components/title-bar.vue')['default']
     VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
     VarAvatar: typeof import('@varlet/ui')['_AvatarComponent']

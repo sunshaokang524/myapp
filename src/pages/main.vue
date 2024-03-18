@@ -10,7 +10,7 @@ const router = useRouter();
 
 const infoValue: any = ref(0);
 
-const active:any = ref(
+const active: any = ref(
   router.currentRoute.value.name === "Main"
     ? "home"
     : router.currentRoute.value.name
@@ -31,6 +31,11 @@ const changeFn = (path: any): void => {
   });
   // 背景
 };
+const goAi=()=>{
+  router.push({
+    name:"Ai"
+  })
+}
 // changeFn(route.params.tag || "home");
 const vantaRef: any = ref(null);
 onMounted(() => {
@@ -55,8 +60,11 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div>
+  <div class="main">
     <div ref="vantaRef" style="width: 100vw; height: 100vh" class="bgColor">
+      <div class="Ai-chat" @click="goAi">
+        <var-icon name="chat-processing" color="#fff" size="30"/>
+      </div>
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" :key="$route.path" />
@@ -94,6 +102,9 @@ onMounted(() => {
   </div>
 </template>
 <style lang="scss" scoped>
+.main{
+  position: relative;
+}
 .var-bottom-navigation {
   background-color: #fff0;
 
@@ -105,5 +116,13 @@ onMounted(() => {
   ::v-deep .var-badge {
     width: 25%;
   }
+
+}
+.Ai-chat{
+  z-index: 10;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  // background-color: #fff;
 }
 </style>
