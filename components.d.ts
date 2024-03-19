@@ -28,6 +28,7 @@ declare module 'vue' {
     VarImage: typeof import('@varlet/ui')['_ImageComponent']
     VarInput: typeof import('@varlet/ui')['_InputComponent']
     VarList: typeof import('@varlet/ui')['_ListComponent']
+    VarLoading: typeof import('@varlet/ui')['_LoadingComponent']
     VarOverlay: typeof import('@varlet/ui')['_OverlayComponent']
     VarPicker: typeof import('@varlet/ui')['_PickerComponent']
     VarRadio: typeof import('@varlet/ui')['_RadioComponent']

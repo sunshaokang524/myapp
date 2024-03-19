@@ -1,15 +1,18 @@
 <template>
   <div class="AI">
     <titleBar :round="false" title="聊天" style="width: 100%"></titleBar>
+    <var-loading type="rect" :loading="loading">
     <div class="info-list" style="z-index: 10" ref="chatBox">
       <div v-for="(item, i) in AiList" :key="i">
         <div class="info-item right-info" v-if="item.type === 'AI'">
-          <div style="margin-right: 8px">
-            <div class="info-name">机器人</div>
-            <div class="info-text">{{ item.message }}</div>
-            <div class="info-time">{{ item.createTime }}</div>
-          </div>
-          <!-- <var-avatar :src="myItem.avatar" size="60" /> -->
+     
+            <div style="margin-right: 8px">
+              <div class="info-name">机器人</div>
+              <div class="info-text">{{ item.message }}</div>
+              <div class="info-time">{{ item.createTime }}</div>
+            </div>
+            <!-- <var-avatar :src="myItem.avatar" size="60" /> -->
+    
         </div>
         <div class="info-item left-info" v-else>
           <!-- <var-avatar :src="targetItem.avatar" size="60" /> -->
@@ -21,6 +24,7 @@
         </div>
       </div>
     </div>
+  </var-loading>
     <div class="input-box">
       <var-input
         :rows="rowsValue ? rowsValue : 1"
@@ -31,7 +35,7 @@
       >
         <template #append-icon>
           <var-button text outline type="primary" @click.prevent="sendInfo"
-            >发送</var-button
+         :disabled="loading"   >发送</var-button
           >
         </template>
       </var-input>
@@ -57,6 +61,7 @@ let requestObj = {
   sparkResult: "",
 };
 const inputInfo = ref("");
+const loading =ref(false);
 // 点击发送信息按钮
 const sendInfo = (e) => {
   AiList.value.push({
@@ -64,6 +69,8 @@ const sendInfo = (e) => {
     createTime: new Date().toLocaleString(),
     type: "my",
   });
+  loading.value = true;
+  
   sendMsg();
 };
 
@@ -108,6 +115,7 @@ const sendMsg = async () => {
       },
     };
     console.log("发送消息");
+    inputInfo.value=''
     socket.send(JSON.stringify(params));
   });
   let str = "";
@@ -131,6 +139,7 @@ const sendMsg = async () => {
           type: "AI",
         });
         console.log("对话已经完成", str);
+        loading.value = false;
       }
     }
     // addMsgToTextarea(requestObj.sparkResult);
@@ -236,7 +245,7 @@ onUpdated(() => {
         font-size: 20px;
         color: black;
         border-radius: 5px 20px 20px 5px;
-        max-width: 200px;
+        max-width: 300px;
         word-break: break-all;
         display: inline-block;
         padding: 8px 15px;
