@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount, onMounted,onUpdated } from "vue";
+import { ref, computed, onBeforeUnmount,onUpdated } from "vue";
 import { post } from "../../../api/api";
 import io from "socket.io-client";
 const infoValue = ref<string>("");
