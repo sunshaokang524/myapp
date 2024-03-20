@@ -7,6 +7,9 @@
 <script></script>
 
 <style lang="scss" scoped>
+.content{
+  z-index: 10;
+}
 h2 {
   position: relative;
   font-size: 14vw;

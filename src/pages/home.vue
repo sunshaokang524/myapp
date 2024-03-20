@@ -22,7 +22,7 @@ import test from "../components/test/test.vue";
 }
 .glass-container {
   box-sizing: border-box;
-
+z-index: 10;
   width: 90%;
   min-height: 300px;
   line-height: 28px;
