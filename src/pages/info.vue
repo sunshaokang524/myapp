@@ -4,7 +4,7 @@ import { ref, getCurrentInstance } from "vue";
 import { getTime } from "../utile/index";
 import { Dialog } from "@varlet/ui";
 import { useRouter } from "vue-router";
-import {getImg} from "../utile/index"
+
 const router = useRouter();
 const { proxy } = getCurrentInstance() as any;
 

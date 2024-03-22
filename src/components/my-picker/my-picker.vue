@@ -1,6 +1,8 @@
 <template>
+
   <div class="my-picker">
     <var-overlay v-model:show="over_show">
+      <!-- @ts-ignore -->
       <var-picker
       v-if="area"
         class="picker_live"
@@ -35,7 +37,7 @@ const show = () => {
   over_show.value = true;
 };
 show()
-const handleChange = (value: any, index: number) => {
+const handleChange:any= (value: any, index: number) => {
 props.selected(value)
 console.log(value, index);
 }
