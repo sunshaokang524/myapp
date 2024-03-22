@@ -11,17 +11,21 @@ const router = useRouter();
 const infoValue: any = ref(0);
 
 const active: any = ref(
+
   router.currentRoute.value.name === "Main"
     ? "home"
     : router.currentRoute.value.name
 );
 get("/getInfo", { id: localStorage.getItem("Id") }).then((res: any) => {
-  const newInfo = res.data[0].infoList.filter(
-    (item: any) => item.isRead === false
-  );
-  infoValue.value = newInfo.length;
+  if (res.data.length > 0) {
+    const newInfo = res.data[0].infoList.filter(
+      (item: any) => item.isRead === false
+    );
+    infoValue.value = newInfo.length;
+  }
 });
 
+console.log(router.currentRoute.value.name,'  console.log(router.currentRoute.value.name)')
 const changeFn = (path: any): void => {
   if (path === "info") {
     infoValue.value = 0;
@@ -31,11 +35,12 @@ const changeFn = (path: any): void => {
   });
   // 背景
 };
-const goAi=()=>{
+changeFn(active.value)
+const goAi = () => {
   router.push({
-    name:"Ai"
-  })
-}
+    name: "Ai",
+  });
+};
 // changeFn(route.params.tag || "home");
 const vantaRef: any = ref(null);
 onMounted(() => {
@@ -63,11 +68,12 @@ onMounted(() => {
   <div class="main">
     <div ref="vantaRef" style="width: 100vw; height: 100vh" class="bgColor">
       <div class="Ai-chat" @click="goAi">
-        <var-icon name="chat-processing" color="#fff" size="30"/>
+        <var-icon name="chat-processing" color="#fff" size="30" />
       </div>
       <router-view v-slot="{ Component }">
         <keep-alive>
-          <component :is="Component" :key="$route.path" />
+          
+          <component :is="Component" :key="$route.path" >{{Component}}</component>
         </keep-alive>
       </router-view>
     </div>
@@ -102,7 +108,7 @@ onMounted(() => {
   </div>
 </template>
 <style lang="scss" scoped>
-.main{
+.main {
   position: relative;
 }
 .var-bottom-navigation {
@@ -116,9 +122,8 @@ onMounted(() => {
   ::v-deep .var-badge {
     width: 25%;
   }
-
 }
-.Ai-chat{
+.Ai-chat {
   z-index: 10;
   position: absolute;
   top: 10px;

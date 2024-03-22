@@ -2,10 +2,12 @@
   <div class="my-picker">
     <var-overlay v-model:show="over_show">
       <var-picker
+      v-if="area"
         class="picker_live"
         cascade
-        :columns:any="columns"
-        @confirm:any="handleChange"
+        ref="picker"
+        :columns="area"
+        @confirm="handleChange"
       />
     </var-overlay>
   </div>
@@ -13,6 +15,7 @@
 
 <script setup lang="ts">
 import { defineProps, ref } from "vue";
+import area from '@varlet/ui/json/area.json'
 const props=defineProps({
   columns: {
     type: Array,
@@ -25,14 +28,18 @@ const props=defineProps({
     }
   }
 });
+console.log(props.columns,'4554');
 const over_show = ref<boolean>(false);
+const picker = ref<any>(null);
 const show = () => {
   over_show.value = true;
 };
+show()
 const handleChange = (value: any, index: number) => {
-    props.selected(value)
+props.selected(value)
 console.log(value, index);
 }
+
 defineExpose({
   show,
 });

@@ -128,7 +128,8 @@ const getLike = (type: boolean, infoId: any) => {
     infoId: infoId,
   }).then((res: any) => {
     proxy.$Toast({ content: res.message });
-    get("/dynamicstate", { id: localStorage.getItem("Id") }).then((r: any) => {
+    get("/dynamicstate", { id: localStorage.getItem("Id"), pageSize: 3,
+    pageNum: pageNum.value, }).then((r: any) => {
       let info = r.data.imgList.filter(
         (item: any) => item.infoId == res.data.infoId
       );

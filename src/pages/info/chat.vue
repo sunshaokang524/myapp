@@ -61,7 +61,7 @@ const rowsValue = computed(() => {
 const targetAccount = history.state.account;
 
 const myAccount = localStorage.getItem("Account");
-let socket = io("http://192.168.0.3:3001"); // 连接后端的 socket.io 方法里面传服务端的ip
+let socket = io("http://120.53.240.109:3005"); // 连接后端的 socket.io 方法里面传服务端的ip
 socket.on("connect", () => {
   // 监听客户端连接成功
   console.log(socket.id, "监听客户端连接成功-connect");

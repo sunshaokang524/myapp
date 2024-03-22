@@ -4,6 +4,7 @@ import { ref, getCurrentInstance } from "vue";
 import { getTime } from "../utile/index";
 import { Dialog } from "@varlet/ui";
 import { useRouter } from "vue-router";
+import {getImg} from "../utile/index"
 const router = useRouter();
 const { proxy } = getCurrentInstance() as any;
 
@@ -11,6 +12,7 @@ const { proxy } = getCurrentInstance() as any;
 const infoList: any = ref([]);
 const getInfo = () => {
   get("/getInfo", { id: localStorage.getItem("Id") }).then((res: any) => {
+    if(res.data.length == 0) return;
     infoList.value = res.data[0].infoList;
   });
 };
@@ -122,6 +124,7 @@ const goLink = (item: any) => {
           </div>
         </var-badge>
       </div>
+    <img src="src/assets/empty.png" style="width:200px;margin-top:50px"  alt="空" v-if="infoList.length===0">
     </div>
     <div v-else class="info-box">
       <div
@@ -137,6 +140,8 @@ const goLink = (item: any) => {
           <div class="friend-name">{{ item.nickName }}</div>
         </div>
       </div>
+      <img src="src/assets/empty.png" style="width:200px;margin-top:50px"  alt="空" v-if="friendList.length===0">
+
     </div>
   </div>
 </template>

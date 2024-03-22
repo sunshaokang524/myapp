@@ -1,10 +1,17 @@
 <template>
   <div class="content">
-    <h2 data-text="Sisyphus">Sisyphus</h2>
+    <h2 :data-text="text">{{text}}</h2>
   </div>
 </template>
 
-<script></script>
+<script setup>
+defineProps({
+  text:{
+    type:String,
+    default:'Sisyphus'
+  }
+})
+</script>
 
 <style lang="scss" scoped>
 .content{

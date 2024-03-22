@@ -74,9 +74,10 @@ const nickname = ref<string>("");
 const age = ref<string>("");
 const phone = ref<string>("");
 const sex = ref<number>(0);
-const imgPath = ref<any>("");
+const imgPath = ref<any>([]);
 const native_place = ref<string>("");
 const show_over = () => {
+  console.log(111,area);
   proxy.$Picker({
     columns: area,
     selected: (val: any) => {

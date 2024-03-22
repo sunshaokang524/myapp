@@ -4,7 +4,7 @@ import Toast from '../src/components/my-toast/index'
 console.log()
 
 const request: AxiosInstance = axios.create({
-  baseURL: "http://192.168.0.3:5000",
+  baseURL: "http://120.53.240.109:5240",
   timeout: 5000,
 });
 // 添加请求拦截器
