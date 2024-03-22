@@ -46,7 +46,7 @@ const Follow=()=>{
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /* 设置整个页面为一个flex容器，居中对齐和垂直对齐 */
 
 .body {

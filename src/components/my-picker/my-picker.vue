@@ -47,7 +47,7 @@ defineExpose({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .picker_live {
   position: fixed;
   bottom: 0;

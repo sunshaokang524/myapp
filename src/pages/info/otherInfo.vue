@@ -59,7 +59,7 @@ const addFriends = (item: any) => {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .otherInfo {
   width: 100%;
   height: 100%;

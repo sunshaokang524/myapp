@@ -127,7 +127,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .edit-info {
   position: relative;
   display: flex;
