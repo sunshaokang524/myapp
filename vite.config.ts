@@ -12,7 +12,8 @@ export default defineConfig({
         'var-avatar': ['src']
       }
     }}), components({
-    resolvers: [VarletUIResolver()]
+    resolvers: [VarletUIResolver()],
+   
   }),
   autoImport({
     resolvers: [VarletUIResolver({ autoImport: true })]
@@ -21,4 +22,5 @@ export default defineConfig({
     
 
 ],
+base:'./'
 })
